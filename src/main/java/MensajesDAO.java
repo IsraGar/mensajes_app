@@ -29,12 +29,11 @@ public class MensajesDAO {
     public static void leerMensajesDB(){
         try(Connection myConn = getConnection()){
             PreparedStatement preparedStatement = null;
+            ResultSet resultSet = null;
             try{
-                PreparedStatement preparedStatement1 = null;
-                ResultSet resultSet = null;
                 String query = "SELECT * from mensajes";
-                preparedStatement1 = myConn.prepareStatement(query);
-                resultSet = preparedStatement1.executeQuery();
+                preparedStatement = myConn.prepareStatement(query);
+                resultSet = preparedStatement.executeQuery();
 
                 while(resultSet.next()){
                     System.out.println("ID: " + resultSet.getInt("id_mensaje"));
@@ -51,7 +50,20 @@ public class MensajesDAO {
         }
     }
     public static void borrarMensajeDB(int idMensaje){
-
+        try(Connection myConn = getConnection()){
+            PreparedStatement preparedStatement = null;
+            try{
+                String query = "DELETE FROM mensajes WHERE id_mensaje = ?";
+                preparedStatement = myConn.prepareStatement(query);
+                preparedStatement.setInt(1, idMensaje);
+                preparedStatement.executeUpdate();
+                System.out.println("Mensaje borrado de manera correcta");
+            }catch (SQLException ex){
+                System.out.println(ex);
+            }
+        }catch (SQLException e){
+            System.out.println(e);
+        }
     }
     public static void actualizarMensajeDB(Mensaje mensaje){
 
