@@ -18,7 +18,8 @@ public class MensajeService {
         MensajesDAO.crearMensajeDB(registro);
     }
     public static void listarMensaje(){
-
+        System.out.println("**Lista de mensajes**");
+        MensajesDAO.leerMensajesDB();
     }
     public static void borrarMensaje(){
 
