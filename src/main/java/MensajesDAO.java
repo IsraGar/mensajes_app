@@ -66,6 +66,20 @@ public class MensajesDAO {
         }
     }
     public static void actualizarMensajeDB(Mensaje mensaje){
-
+        try(Connection myConn = getConnection()){
+            PreparedStatement preparedStatement = null;
+            try{
+                String query = "UPDATE mensajes SET mensaje = ? WHERE id_mensaje = ?";
+                preparedStatement = myConn.prepareStatement(query);
+                preparedStatement.setString(1, mensaje.getMensaje());
+                preparedStatement.setInt(2, mensaje.getIdMensaje());
+                preparedStatement.executeUpdate();
+                System.out.println("Actualización correcta del mensaje");
+            }catch (SQLException ex){
+                System.out.println(ex);
+            }
+        }catch (SQLException e){
+            System.out.println(e);
+        }
     }
 }
